@@ -56,14 +56,31 @@ app.get('/foods/:id', (req, res) => {
 
 // Update - PUT /foods/:id (redirect to /foods/:id)
 app.put('/foods/:id', (req, res) => {
-    res.send('update food at ID ' + req.params.id);
+    db.food.update({
+        where: {
+            id: req.params.id
+        }
+    }).then(function(updated) {
+        if (updated) {
+        console.log(`successfully updated`);
+        }
+    }).catch(err => console.log(err));
+    
 });
 
 
 
 // Destroy - Delete /foods/:id (redirect to /foods)
 app.delete('/users/:id', (req, res) => {
-    res.send('deleteing user')
+    db.food.destroy({
+        where: {
+        id: req.params.id
+    }
+}).then(function(numDeleted) {
+    console.log('bye');
+    console.log(numDeleted);
+    res.redirect('/foods');
+    });
 })
 
 
